@@ -6,6 +6,8 @@ import { Product } from '../product';
 import { ProductService } from '../product.service';
 import { Store, select } from '@ngrx/store';
 import * as fromProduct from '../state/product.reducer';
+import { ToggleProductCode, SetCurrentProduct, InitializeCurrentProduct } from '../state/product.actions';
+//import * as productActions from '../state/product.actions';
 
 
 @Component({
@@ -26,7 +28,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   constructor(private productService: ProductService,
-    private store: Store<fromProduct.State>) { }
+              private store: Store<fromProduct.State>) { }
 
   ngOnInit(): void {
 
@@ -34,8 +36,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       this.displayCode = showProductCode;
     });
 
-    this.sub = this.productService.selectedProductChanges$.subscribe(
-      selectedProduct => this.selectedProduct = selectedProduct
+    this.store.pipe(select(fromProduct.getCurrentProduct)).subscribe(
+      currentProduct => this.selectedProduct = currentProduct
     );
 
     this.productService.getProducts().subscribe({
@@ -49,20 +51,17 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   checkChanged(value: boolean): void {
-    this.store.dispatch({
-      type: 'TOGGLE_PRODUCT_CODE',
-      payload: value
-
-    });
+    this.store.dispatch(new ToggleProductCode(value));
+    //this.store.dispatch(new productActions.ToggleProductCode(value));
     this.displayCode = value;
   }
 
   newProduct(): void {
-    this.productService.changeSelectedProduct(this.productService.newProduct());
+    this.store.dispatch(new InitializeCurrentProduct());
   }
 
   productSelected(product: Product): void {
-    this.productService.changeSelectedProduct(product);
+   this.store.dispatch(new SetCurrentProduct(product));
   }
 
 }
