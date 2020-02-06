@@ -26,14 +26,12 @@ export class ProductListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   constructor(private productService: ProductService,
-              private store: Store<fromProduct.State>) { }
+    private store: Store<fromProduct.State>) { }
 
   ngOnInit(): void {
 
-    this.store.pipe(select('products')).subscribe(products => {
-      if (products) {
-        this.displayCode = products.showProductCode;
-      }
+    this.store.pipe(select(fromProduct.getShowProductCode)).subscribe(showProductCode => {
+      this.displayCode = showProductCode;
     });
 
     this.sub = this.productService.selectedProductChanges$.subscribe(
