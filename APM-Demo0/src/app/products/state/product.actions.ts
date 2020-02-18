@@ -8,7 +8,13 @@ export enum ProductActionTypes {
     InitializeCurrentProduct = '[Product] Initialize Current Product',
     Load = '[Product] Load',
     LoadSuccess = '[Product] Load Success',
-    LoadFail = '[Product] Load Fail'
+    LoadFail = '[Product] Load Fail',
+    UpdateProduct = '[Product] Update Project',
+    UpdateProductSuccess = '[Product] Update Project Success',
+    UpdateProductFail = '[Product] Update Project Fail',
+    CreateProduct = '[Product] Create Project',
+    CreateProductSuccess = '[Product] Create Project Success',
+    CreateProductFail = '[Product] Create Project Fail',
 }
 
 export class ToggleProductCode implements Action {
@@ -43,6 +49,36 @@ export class LoadFail implements Action {
     constructor(public payload: string) { }
 }
 
+export class UpdateProduct implements Action {
+    readonly type = ProductActionTypes.UpdateProduct;
+    constructor(public payload: Product) { }
+}
+
+export class UpdateProductSuccess implements Action {
+    readonly type = ProductActionTypes.UpdateProductSuccess;
+    constructor(public payload: Product) { }
+}
+
+export class UpdateProductFail implements Action {
+    readonly type = ProductActionTypes.UpdateProductFail;
+    constructor(public payload: string) { }
+}
+
+export class CreateProduct implements Action {
+    readonly type = ProductActionTypes.CreateProduct;
+    constructor(public payload: Product) { }
+}
+
+export class CreateProductSuccess implements Action {
+    readonly type = ProductActionTypes.CreateProductSuccess;
+    constructor(public payload: Product) { }
+}
+
+export class CreateProductFail implements Action {
+    readonly type = ProductActionTypes.CreateProductFail;
+    constructor(public payload: string) { }
+}
+
 export type ProductActions = ToggleProductCode
     | SetCurrentProduct
     | ClearCurrentProduct
@@ -50,4 +86,10 @@ export type ProductActions = ToggleProductCode
     | Load
     | LoadSuccess
     | LoadFail
+    | UpdateProduct
+    | UpdateProductSuccess
+    | UpdateProductFail
+    | CreateProduct
+    | CreateProductSuccess
+    | CreateProductFail
     ;

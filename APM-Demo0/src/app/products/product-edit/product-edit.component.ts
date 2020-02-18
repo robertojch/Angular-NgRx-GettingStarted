@@ -10,7 +10,7 @@ import { NumberValidators } from '../../shared/number.validator';
 
 import { Store, select } from '@ngrx/store';
 import * as fromProduct from '../state/product.reducer';
-import { ClearCurrentProduct, SetCurrentProduct } from '../state/product.actions';
+import { ClearCurrentProduct, SetCurrentProduct, UpdateProduct, CreateProduct } from '../state/product.actions';
 
 @Component({
   selector: 'pm-product-edit',
@@ -142,15 +142,9 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         const p = { ...this.product, ...this.productForm.value };
 
         if (p.id === 0) {
-          this.productService.createProduct(p).subscribe({
-            next: product => this.store.dispatch(new SetCurrentProduct(product)),
-            error: err => this.errorMessage = err.error
-          });
+         this.store.dispatch(new CreateProduct(p));
         } else {
-          this.productService.updateProduct(p).subscribe({
-            next: product => this.store.dispatch(new SetCurrentProduct(product)),
-            error: err => this.errorMessage = err.error
-          });
+         this.store.dispatch(new UpdateProduct(p));
         }
       }
     } else {
